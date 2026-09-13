@@ -1,0 +1,9 @@
+[
+  {
+    "category": "pagination",
+    "endpoint": "/v1/listings",
+    "finding": "The listings API reports total=3844, but offset pagination returned 4100 records before has_more became false.",
+    "evidence": "offset=3800 returned count=50 with total=3844 and has_more=true; offset=4050 returned count=50 with total=3844 and has_more=false.",
+    "impact": "Clients relying on the reported total may stop pagination early and miss 256 records."
+  }
+]
