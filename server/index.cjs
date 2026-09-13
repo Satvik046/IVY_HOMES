@@ -400,6 +400,102 @@ app.get("/api/listings/:listingId", async (req, res) => {
   }
 });
 /* =========================
+   FAVOURITES
+========================= */
+
+app.get("/api/favourites", async (req, res) => {
+  try {
+    const token = req.headers.cookie
+      ?.split(";")
+      .find((cookie) => cookie.trim().startsWith("ivy_token="))
+      ?.split("=")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        error: "Bearer token is required.",
+      });
+    }
+
+    const result = await ivyRequest(
+      "/v1/favourites",
+      "GET",
+      token
+    );
+
+    res.status(result.status).json(result.data);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
+app.post("/api/favourites", async (req, res) => {
+  try {
+    const token = req.headers.cookie
+      ?.split(";")
+      .find((cookie) => cookie.trim().startsWith("ivy_token="))
+      ?.split("=")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        error: "Bearer token is required.",
+      });
+    }
+
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({
+        error: "Listing id is required.",
+      });
+    }
+
+    const result = await ivyRequest(
+      "/v1/favourites",
+      "POST",
+      token,
+      { id }
+    );
+
+    res.status(result.status).json(result.data);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
+app.delete("/api/favourites/:id", async (req, res) => {
+  try {
+    const token = req.headers.cookie
+      ?.split(";")
+      .find((cookie) => cookie.trim().startsWith("ivy_token="))
+      ?.split("=")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        error: "Bearer token is required.",
+      });
+    }
+
+    const id = encodeURIComponent(req.params.id);
+
+    const result = await ivyRequest(
+      `/v1/favourites/${id}`,
+      "DELETE",
+      token
+    );
+
+    res.status(result.status).json(result.data);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
+/* =========================
    START SERVER
 ========================= */
 
