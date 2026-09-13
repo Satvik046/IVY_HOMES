@@ -329,12 +329,44 @@ app.get("/api/listings", async (req, res) => {
     const query = new URLSearchParams();
 
     if (req.query.limit) {
-      query.set("limit", req.query.limit);
-    }
+  query.set("limit", req.query.limit);
+}
 
-    if (req.query.offset) {
-      query.set("offset", req.query.offset);
-    }
+if (req.query.offset) {
+  query.set("offset", req.query.offset);
+}
+
+if (req.query.locality) {
+  query.set("locality", req.query.locality);
+}
+
+if (req.query.bhk) {
+  query.set("bhk", req.query.bhk);
+}
+
+if (req.query.property_type) {
+  query.set("property_type", req.query.property_type);
+}
+
+if (req.query.min_price) {
+  query.set("min_price", req.query.min_price);
+}
+
+if (req.query.max_price) {
+  query.set("max_price", req.query.max_price);
+}
+
+if (req.query.furnishing) {
+  query.set("furnishing", req.query.furnishing);
+}
+
+if (req.query.sort_by) {
+  query.set("sort_by", req.query.sort_by);
+}
+
+if (req.query.order) {
+  query.set("order", req.query.order);
+}
 
     const queryString = query.toString();
 
