@@ -367,7 +367,38 @@ app.get("/api/listings", async (req, res) => {
   }
 });
 
+/* =========================
+   LISTING DETAIL
+========================= */
 
+app.get("/api/listings/:listingId", async (req, res) => {
+  try {
+    const token = req.headers.cookie
+      ?.split(";")
+      .find((cookie) => cookie.trim().startsWith("ivy_token="))
+      ?.split("=")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        error: "Bearer token is required.",
+      });
+    }
+
+    const listingId = encodeURIComponent(req.params.listingId);
+
+    const result = await ivyRequest(
+      `/v1/listings/${listingId}`,
+      "GET",
+      token
+    );
+
+    res.status(result.status).json(result.data);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
 /* =========================
    START SERVER
 ========================= */
