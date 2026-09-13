@@ -387,7 +387,7 @@ app.get("/api/listings/:listingId", async (req, res) => {
     const listingId = encodeURIComponent(req.params.listingId);
 
     const result = await ivyRequest(
-      `/v1/listings/${listingId}`,
+      `/v1/listing/${listingId}`,
       "GET",
       token
     );
